@@ -293,7 +293,7 @@ body{
   content:'';
   position:absolute;
   inset:0;
-  background-image:url('/assets//bailarine_dance.png');
+  background-image:url('/assets/bailarine_dance.png');
   background-repeat:repeat;
   background-size:18px auto; /* tiny */
   opacity:.30; /* slightly more visible */
