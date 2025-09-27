@@ -1,0 +1,408 @@
+
+:root{
+  --azul-marinho:#002855;
+  --vermelho-salsa:#B4202A;
+  --dourado-1:#FFD700;
+  --dourado-2:#CDA434;
+  --branco:#FFFFFF;
+  --max-width:1100px;
+  --radius:12px;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --font-serif: "Playfair Display", serif;
+  --logo-crop-width:440px;      /* reduce to crop sides a bit more */
+  --logo-crop-height:240px;     /* reduce to crop top/bottom a bit more */
+  --logo-object-position:50% 30%; /* nudge focal point slightly up */
+  --sparkle-1: rgba(255,215,0,0.95); /* gold */
+  --sparkle-2: rgba(255,215,0,0.6);  /* softer gold */
+  --sparkle-size: 4px; /* larger dots */
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--font-sans);
+  color:var(--azul-marinho);
+  background:linear-gradient(180deg,var(--azul-marinho),#032a52 60%);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* remove global texture; texture will be applied on cards only */
+
+/* HERO */
+.hero{
+  background:linear-gradient(180deg,var(--azul-marinho),#032a52 60%);
+  color:var(--branco);
+  padding:0px 20px 4.5vh;
+  display:flex;
+  justify-content:center;
+  position:relative;
+  z-index:0; /* create stacking context for overlays */
+}
+.hero-inner{
+  width:100%;
+  max-width:var(--max-width);
+  text-align:center;
+  position:relative;
+  padding:24px 20px 24px;
+}
+.frame{
+  position:relative;
+  margin:0 auto;
+  width:min(880px, 96%);
+  padding:14vh 8vw 11vh; /* reduced bottom space */
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center; /* center content within safe area */
+  gap:8px;
+  background-image:url('../public/moldura.png');
+  background-repeat:no-repeat;
+  background-position:center 8px;
+  background-size:contain; /* ensure full frame visible */
+}
+.logo{display:block;width:100%;height:100%;margin:0 auto;border-radius:0}
+.count-days{
+  margin:18px 0 6px;
+  font-family:var(--font-serif);
+  font-size:48px;
+  color:var(--dourado-1);
+  display:flex;
+  gap:8px;
+  justify-content:center;
+  align-items:baseline;
+}
+.count-days small{font-size:14px;color:rgba(255,215,0,0.95);display:block}
+.lead{
+  font-family:var(--font-serif);
+  font-size:24px;
+  margin:0 0 4px;
+  color:var(--dourado-2);
+}
+
+/* Invite message below the frame */
+.invite-msg{
+  margin:12px auto 10px;
+  max-width:720px;
+  color:var(--dourado-2);
+  text-align:center;
+  font-family:var(--font-serif);
+  font-size:24px;
+}
+
+.cta-buttons{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:8px}
+.ballerina-side{height:44px; width:auto}
+
+/* Ballerina image below the CTA, slight fade */
+.bailarina-float{
+  display:block;
+  width:140px;
+  height:auto;
+  margin:10px 0 0 10px; /* left-aligned and just below button */
+  opacity:.35;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,.2));
+}
+
+/* Ticket-like CTA button linking to RSVP */
+.ticket-btn{
+  display:inline-block;
+  margin:6px auto 0;
+  padding:12px 22px;
+  color:#2b5b84; /* blue text */
+  background:#F5E6B3; /* cream fill */
+  border-radius:12px;
+  border:2px solid #CDA434; /* subtle gold border initially */
+  font-weight:700;
+  text-decoration:none;
+  font-family:var(--font-serif);
+  font-size:16px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 8px 20px rgba(0,0,0,0.10);
+  /* Ticket side notches using masks */
+  -webkit-mask:
+    radial-gradient(10px 10px at left center, transparent 98%, #000 100%) left center / 20px 100% no-repeat,
+    radial-gradient(10px 10px at right center, transparent 98%, #000 100%) right center / 20px 100% no-repeat,
+    linear-gradient(#000,#000);
+  mask:
+    radial-gradient(10px 10px at left center, transparent 98%, #000 100%) left center / 20px 100% no-repeat,
+    radial-gradient(10px 10px at right center, transparent 98%, #000 100%) right center / 20px 100% no-repeat,
+    linear-gradient(#000,#000);
+}
+/* Ballerina appears above button on hover */
+.ticket-btn::before{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:-60px;
+  width:58px; height:58px;
+  transform:translateX(-50%) scale(0.9);
+  background:url('../public/bailarine_dance.png') center/contain no-repeat;
+  filter: hue-rotate(330deg) saturate(1.2); /* tilt to red tone if needed */
+  opacity:0;
+  pointer-events:none;
+}
+
+/* Ballerina hover effect */
+.ticket-btn::after{content:none}
+
+/* Hover cream transition */
+.ticket-btn:hover::before{opacity:1; animation: fade-rise .6s ease-out forwards}
+.ticket-btn:hover{color:rgb(170, 24, 43); border-color:rgb(170, 24, 43); background:#F7EED0}
+
+@keyframes fade-rise{
+  0%{transform:translateX(-50%) translateY(8px) scale(0.9); opacity:0}
+  100%{transform:translateX(-50%) translateY(0) scale(1); opacity:1}
+}
+
+/* Button variant 1 uses bailarina.gif */
+.bailarina1::after{background-image:url('../public/bailarina.gif')}
+/* Button variant 2 uses bailarina2.gif */
+.bailarina2::after{background-image:url('../public/bailarina2.gif')}
+.ticket-btn:hover{filter:saturate(1.05);transform:translateY(-1px)}
+.ticket-btn:active{transform:translateY(0)}
+.sublead{opacity:0.95;margin-bottom:6px}
+
+/* Tighter spacing: headings close to the logo and to each other */
+.logo-crop + .lead{margin-top:4px}
+.lead + .lead{margin-top:2px}
+/* Crop container for the logo to hide excess background and center */
+.logo-crop{
+  width:min(var(--logo-crop-width), 90%);
+  height:var(--logo-crop-height);
+  margin:0 auto 2px;
+  overflow:hidden;
+  border-radius:10px;
+}
+.logo-crop img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:var(--logo-object-position);
+}
+
+/* hero::after removed per request */
+
+/* Sparkles overlay on hero */
+.hero::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-repeat:no-repeat;
+  background-image:
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 12% 18%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 22% 36%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 35% 22%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 48% 14%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 63% 28%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 77% 20%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 88% 34%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 10% 52%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 26% 60%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 42% 48%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 58% 56%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 70% 44%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 84% 58%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 16% 76%, var(--sparkle-2) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 38% 72%, var(--sparkle-2) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 62% 74%, var(--sparkle-2) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 80% 70%, var(--sparkle-2) 0 50%, transparent 60%);
+  animation: twinkle 4.2s ease-in-out infinite;
+  will-change: opacity;
+  z-index:0;
+  filter: blur(0.4px);
+}
+
+/* Second layer for shimmer */
+.hero .hero-inner::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-repeat:no-repeat;
+  background-image:
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 8% 26%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 28% 14%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 54% 26%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 72% 16%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 92% 22%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 18% 46%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 46% 62%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 66% 52%, var(--sparkle-1) 0 50%, transparent 60%),
+    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 86% 46%, var(--sparkle-1) 0 50%, transparent 60%);
+  animation: twinkle 4.6s ease-in-out infinite 0.8s;
+  opacity:.85;
+  z-index:0;
+  filter: blur(0.3px);
+}
+
+@keyframes twinkle{
+  0%,100%{opacity:.22}
+  50%{opacity:.75}
+}
+
+/* Floating effect for cards and RSVP */
+@keyframes floaty{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+  100%{transform:translateY(0)}
+}
+
+.info .card{animation: floaty 7s ease-in-out infinite;will-change: transform}
+.info .card:nth-child(2){animation-duration:6.4s;animation-delay:.4s}
+.info .card:nth-child(3){animation-duration:7.6s;animation-delay:.8s}
+.rsvp{animation: floaty 8s ease-in-out infinite .2s}
+
+@media (prefers-reduced-motion: reduce){
+  .hero::before, .hero .hero-inner::before{animation:none}
+  .info .card, .rsvp{animation:none}
+}
+
+/* MAIN */
+.main{
+  max-width:var(--max-width);
+  margin:0 auto;
+  padding:10px 20px;
+}
+
+/* INFO CARDS */
+.info .cards{
+  display:flex;
+  gap:20px;
+  justify-content:space-between;
+  margin-top:24px;
+  flex-wrap:wrap;
+}
+.card{
+  background:#F5E6B3; /* cream */
+  border:2px solid var(--vermelho-salsa);
+  border-radius:var(--radius);
+  padding:22px;
+  flex:1 1 30%;
+  min-width:220px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);
+  position:relative;
+  overflow:hidden;
+}
+/* Very soft ballerina texture overlay on cards */
+.card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:url('../public/bailarine_dance.png');
+  background-repeat:repeat;
+  background-size:18px auto; /* tiny */
+  opacity:.30; /* slightly more visible */
+  mix-blend-mode:soft-light;
+  pointer-events:none;
+}
+/* Cream card with small circus tent texture (higher opacity) */
+.card--tents{
+  background:#F5E6B3;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24'><g fill='%23CDA434' fill-opacity='0.50'><path d='M12 3 L20 13 H4 Z'/><path d='M12 3 L14.5 5 H12 Z'/><path d='M4 13 H20 V15 H4 Z'/></g></svg>");
+  background-size:28px 28px;
+  background-repeat:repeat;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.35),
+              inset 0 -1px 0 rgba(0,0,0,.07),
+              0 8px 20px rgba(0,0,0,0.08);
+}
+.card .icon{font-size:28px;color:var(--dourado-1);margin-bottom:8px}
+.icon-img{width:70px;height:auto;object-fit:cover;border-radius:5px;vertical-align:middle}
+.card h3{font-family:var(--font-serif);color:var(--azul-marinho);margin:6px 0}
+.card p{color:var(--azul-marinho);opacity:0.95;line-height:1.4}
+
+/* RSVP */
+.rsvp{background:var(--vermelho-salsa);color:var(--branco);padding:36px 18px;margin-top:26px;border-radius:18px}
+.rsvp-inner{max-width:720px;margin:0 auto;text-align:center}
+.rsvp h2{font-family:var(--font-serif);color:var(--dourado-1);font-size:28px;margin-bottom:14px}
+form#rsvpForm{display:block;margin-top:8px}
+.row{display:flex;gap:12px;flex-wrap:wrap}
+input[type="text"], input[type="number"]{
+  width:100%;
+  padding:12px 14px;
+  border-radius:10px;
+  border:none;
+  font-size:15px;
+  margin-bottom:12px;
+}
+.btn{
+  display:inline-block;
+  background:linear-gradient(90deg,var(--dourado-1),var(--dourado-2));
+  color:var(--azul-marinho);
+  padding:12px 22px;
+  border-radius:30px;
+  border:none;
+  font-weight:700;
+  cursor:pointer;
+  font-size:16px;
+  position:relative;
+  overflow:hidden;
+}
+.btn::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%) scale(0);
+  width:220%;
+  height:220%;
+  background:radial-gradient(circle, rgba(255,255,255,.55) 0%, rgba(255,255,255,.28) 35%, rgba(255,255,255,0) 60%);
+  border-radius:50%;
+  pointer-events:none;
+}
+.btn:hover::after{animation:ripple 800ms ease-out forwards}
+@keyframes ripple{from{transform:translate(-50%,-50%) scale(0);opacity:.7}to{transform:translate(-50%,-50%) scale(1);opacity:0}}
+.counters{display:flex;justify-content:space-between;gap:16px;margin:14px 0 18px}
+.counter{flex:1;background:rgba(255,255,255,0.08);border-radius:12px;padding:12px 10px;text-align:left}
+.counter .label{color:#bcd7ff;font-weight:600;margin-bottom:6px}
+.counter .label small{display:block;color:#d4e6ff;font-weight:400;margin-top:2px}
+.controls{display:flex;align-items:center;justify-content:flex-end;gap:10px}
+.qty-value{min-width:20px;text-align:center;font-weight:700;color:#cfe3ff}
+.btn-qty{width:40px;height:40px;border-radius:8px;border:2px solid #64a2ff;background:transparent;color:#64a2ff;font-size:22px;line-height:1;cursor:pointer}
+.btn-qty:disabled{opacity:.45;border-color:rgba(100,162,255,.5);color:rgba(100,162,255,.5);cursor:not-allowed}
+.success{color:#64a2ff;margin-top:12px;font-weight:700}
+
+/* FOOTER */
+.site-footer{background:var(--azul-marinho);color:var(--dourado-1);padding:24px 18px;margin-top:30px;text-align:center;border-top:4px solid rgba(0,0,0,0.05)}
+.site-footer p{margin:0;font-family:var(--font-serif)}
+.footer-gif{display:block;margin:0 auto 8px;width:140px;height:140px;opacity:.4;filter:drop-shadow(0 4px 12px rgba(0,0,0,.2));border-radius:50%;object-fit:cover}
+
+/* RESPONSIVE */
+@media (max-width:900px){
+  .card{flex:1 1 48%}
+  .count-days{font-size:40px}
+}
+/* Fix frame top cropping around ~660px width */
+@media (max-width: 700px){
+  .frame{padding-top:120px;background-position:center 16px}
+}
+
+@media (min-width: 1200px){
+  .hero{padding-bottom:22vh}
+  .frame{padding-bottom:26vh}
+}
+@media (max-width:560px){
+  .card{flex:1 1 100%}
+  .row{flex-direction:column}
+  .hero{padding-bottom:10vh}
+  .frame{padding:80px 24px 64px;width:105%;background-size:contain}
+  .logo-crop{height:180px;width:min(300px, 90%)}
+  .lead{font-size:20px;margin:2px 0 4px}
+  .cta-buttons{margin-top:4px}
+  .ticket-btn{width:100%;max-width:320px;padding:12px 18px;font-size:16px}
+  .ticket-btn::before{display:none}
+  .count-days{font-size:36px}
+}
+/* Fonte para títulos e chamadas */
+h1, h2, h3, .hero-title, .section-title {
+  font-family: 'Cinzel Decorative', serif;
+}
+
+/* Fonte para textos e corpo */
+body, p, li, label, input, button {
+  font-family: 'Poppins', sans-serif;
+}

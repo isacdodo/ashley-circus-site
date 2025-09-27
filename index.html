@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ashley Circus — 15 anos</title>
+  <link rel="stylesheet" href="styles/style.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="frame">
+        <div class="logo-crop">
+          <img src="public/logo_ofc.png" alt="Logo Ashley" class="logo">
+        </div>
+        <!--div class="count-days" aria-live="polite">
+          <span id="dias">--</span>
+          <small>dias</small>
+        </div-->
+      </div>
+      <h1 class="lead">O espetáculo vai começar...</h1>
+
+      <div class="cta-buttons">
+        <a href="#rsvp" class="ticket-btn" role="button">Confirme sua presença</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <section class="info">
+      <div class="cards">
+        <article class="card">
+          <div class="icon"><img src="public/tent_addres.png" alt="Ícone tenda" class="icon-img"></div>
+          <h3>Local</h3>
+          <p>Buffet Família Gioielli — Rua Acuruí, 104<br><a href="#" id="maplink">Ver no mapa</a></p>
+        </article>
+        <article class="card">
+          <div class="icon"><img src="public/calendar_icon.png" alt="Ícone calendário" class="icon-img"></div>
+          <h3>Data</h3>
+          <p>02 de dezembro · 2025<br>20:00</p>
+        </article>
+        <article class="card">
+          <div class="icon"><img src="public/cloths_icon.png" alt="Ícone dress code" class="icon-img"></div>
+          <h3>Dress code</h3>
+          <p>Traje circo‑chic (vermelho / azul / dourado)</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="rsvp" id="rsvp">
+      <div class="rsvp-inner">
+        <h2>Confirme sua presença</h2>
+        <form id="rsvpForm">
+          <div class="row">
+            <input type="text" name="nome" placeholder="Nome completo" required>
+          </div>
+          <input type="text" name="contato" placeholder="WhatsApp ou email" required>
+          <div class="counters">
+            <div class="counter">
+              <div class="label">Adultos</div>
+              <div class="controls">
+                <button type="button" class="btn-qty" data-target="adultos" data-op="dec" aria-label="Diminuir adultos">−</button>
+                <span class="qty-value" id="adultosValue">0</span>
+                <button type="button" class="btn-qty" data-target="adultos" data-op="inc" aria-label="Aumentar adultos">+</button>
+              </div>
+            </div>
+            <div class="counter">
+              <div class="label">Crianças</div>
+              <div class="controls">
+                <button type="button" class="btn-qty" data-target="criancas" data-op="dec" aria-label="Diminuir crianças">−</button>
+                <span class="qty-value" id="criancasValue">0</span>
+                <button type="button" class="btn-qty" data-target="criancas" data-op="inc" aria-label="Aumentar crianças">+</button>
+              </div>
+            </div>
+          </div>
+          <button type="submit" class="btn">Confirmar Presença</button>
+          <div id="success" class="success" role="status" hidden>🎉 Sua presença foi confirmada! Obrigado.</div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <img src="public/bailarina.gif" alt="Bailarina" class="footer-gif" />
+      <p>#15daAsh</p>
+    </div>
+  </footer>
+
+<script src="scripts/script.js"></script>
+</body>
+</html>

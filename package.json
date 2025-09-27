@@ -1,0 +1,12 @@
+{
+  "name": "ashley-circus-site",
+  "version": "1.0.0",
+  "description": "Site est\u00e1tico + API example for Ashley Circus 15 anos. Deploy on Vercel.",
+  "main": "index.js",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "googleapis": "^160.0.0"
+  }
+}
