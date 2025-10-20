@@ -19,7 +19,21 @@ module.exports = async (req, res) => {
 
   // If Google Sheets config present, attempt to use it
   const sheetId = process.env.GOOGLE_SHEET_ID;
-  const serviceKey = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
+  let serviceKey = process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
+
+  // Fallback: load chave.json for local dev when env var is not set
+  if (!serviceKey) {
+    try {
+      const keyPath = path.join(__dirname, 'chave.json');
+      if (fs.existsSync(keyPath)) {
+        const fileContent = fs.readFileSync(keyPath, 'utf8');
+        // store as string for JSON.parse consistency below
+        serviceKey = fileContent;
+      }
+    } catch (e) {
+      // ignore and let CSV fallback handle
+    }
+  }
 
   if (sheetId && serviceKey) {
     try {
@@ -33,12 +47,24 @@ module.exports = async (req, res) => {
       );
       await jwtClient.authorize();
       const sheets = google.sheets({version: 'v4', auth: jwtClient});
+      // Normalize incoming fields
+      const adultos = Number(body.adultos || 0) || 0;
+      const criancas = Number(body.criancas || 0) || 0;
+      const total = adultos + criancas;
       const values = [
-        [new Date().toISOString(), body.nome, body.acompanhantes || '', body.contato]
+        [
+          new Date().toISOString(),
+          String(body.nome),
+          adultos,
+          criancas,
+          total,
+          String(body.contato)
+        ]
       ];
+      const range = process.env.GOOGLE_SHEET_RANGE || 'A:F';
       await sheets.spreadsheets.values.append({
         spreadsheetId: sheetId,
-        range: 'A:D',
+        range,
         valueInputOption: 'USER_ENTERED',
         resource: {values}
       });
@@ -51,7 +77,11 @@ module.exports = async (req, res) => {
 
   // Fallback: append to a CSV in /tmp (note: serverless ephemeral storage)
   try {
-    const line = `${new Date().toISOString()},"${(body.nome||'').replace(/"/g,'""')}",${body.acompanhantes||0},"${(body.contato||'').replace(/"/g,'""')}"\n`;
+    const adultos = Number(body.adultos || 0) || 0;
+    const criancas = Number(body.criancas || 0) || 0;
+    const total = adultos + criancas;
+    const esc = (s) => String(s || '').replace(/"/g,'""');
+    const line = `${new Date().toISOString()},"${esc(body.nome)}",${adultos},${criancas},${total},"${esc(body.contato)}"\n`;
     const csvPath = path.join('/tmp', 'confirmados.csv');
     fs.appendFileSync(csvPath, line, 'utf8');
     return res.status(200).send('OK');

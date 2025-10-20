@@ -41,18 +41,29 @@ updateQtyUI();
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  // Mock execution for now
-  successEl.textContent = '🪄 Sua presença foi confirmada';
-  successEl.hidden = false;
-  setTimeout(()=>{ successEl.hidden = true; }, 4000);
-  // To send to API later, restore the code below and remove the mock.
-  // const data = new FormData(form);
-  // const payload = {
-  //   nome: data.get('nome'),
-  //   adultos: state.adultos,
-  //   criancas: state.criancas,
-  //   contato: data.get('contato'),
-  //   timestamp: new Date().toISOString()
-  // };
-  // await fetch('/api/confirmar', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+  const data = new FormData(form);
+  const payload = {
+    nome: data.get('nome'),
+    adultos: state.adultos,
+    criancas: state.criancas,
+    contato: data.get('contato'),
+    timestamp: new Date().toISOString()
+  };
+  try {
+    const resp = await fetch('/api/confirmar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!resp.ok) throw new Error('Falha ao enviar');
+    successEl.textContent = '🎉 Sua presença foi confirmada! Obrigado.';
+    successEl.hidden = false;
+    setTimeout(()=>{ successEl.hidden = true; }, 5000);
+    form.reset();
+    state.adultos = 0; state.criancas = 0; updateQtyUI();
+  } catch (err) {
+    successEl.textContent = '⚠️ Não foi possível confirmar agora. Tente novamente mais tarde.';
+    successEl.hidden = false;
+    setTimeout(()=>{ successEl.hidden = true; }, 6000);
+  }
 });

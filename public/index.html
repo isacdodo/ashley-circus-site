@@ -88,6 +88,24 @@
       <p>#15daAsh</p>
     </div>
   </footer>
+  <!-- 
+  <script>
+  document.getElementById('presencaForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const nome = document.getElementById('nome').value;
+    const presenca = document.getElementById('presenca').value;
+
+    const resposta = await fetch('/api/confirmar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, presenca })
+    });
+
+    const data = await resposta.json();
+    document.getElementById('mensagem').innerText = data.message;
+  });-->
+</script>
 
 <script src="scripts/script.js"></script>
 </body>
