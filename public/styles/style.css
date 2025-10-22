@@ -9,9 +9,9 @@
   --radius:12px;
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   --font-serif: "Playfair Display", serif;
-  --logo-crop-width:440px;      /* reduce to crop sides a bit more */
-  --logo-crop-height:240px;     /* reduce to crop top/bottom a bit more */
-  --logo-object-position:50% 30%; /* nudge focal point slightly up */
+  --logo-crop-width:750px;      /* even larger width for bigger logo */
+  --logo-crop-height:450px;     /* even larger height for bigger logo */
+  --logo-object-position:30% 70%; /* move logo slightly to the left */
   --sparkle-1: rgba(255,215,0,0.95); /* gold */
   --sparkle-2: rgba(255,215,0,0.6);  /* softer gold */
   --sparkle-size: 4px; /* larger dots */
@@ -34,7 +34,7 @@ body{
 .hero{
   background:linear-gradient(180deg,var(--azul-marinho),#032a52 60%);
   color:var(--branco);
-  padding:0px 20px 4.5vh;
+  padding:0px 20px 2vh;
   display:flex;
   justify-content:center;
   position:relative;
@@ -45,13 +45,13 @@ body{
   max-width:var(--max-width);
   text-align:center;
   position:relative;
-  padding:24px 20px 24px;
+  padding:16px 20px 16px;
 }
 .frame{
   position:relative;
   margin:0 auto;
   width:min(880px, 96%);
-  padding:14vh 8vw 11vh; /* reduced bottom space */
+  padding:8vh 8vw 6vh; /* reduced padding to bring buttons up */
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -109,6 +109,8 @@ body{
   display:inline-block;
   margin:6px auto 0;
   padding:12px 22px;
+  width:280px;
+  text-align:center;
   color:#2b5b84; /* blue text */
   background:#F5E6B3; /* cream fill */
   border-radius:12px;
@@ -130,6 +132,63 @@ body{
     radial-gradient(10px 10px at right center, transparent 98%, #000 100%) right center / 20px 100% no-repeat,
     linear-gradient(#000,#000);
 }
+.wish-list{
+  display:inline-block;
+  margin:6px auto 0;
+  padding:12px 22px;
+  width:280px;
+  text-align:center;
+  color:#CDA434; /* gold text */
+  background:#B4202A; /* red fill */
+  border-radius:12px;
+  border:2px solid #CDA434; /* subtle gold border initially */
+  font-weight:700;
+  text-decoration:none;
+  font-family:var(--font-serif);
+  font-size:16px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 8px 20px rgba(0,0,0,0.10);
+  /* Ticket side notches using masks */
+  -webkit-mask:
+    radial-gradient(10px 10px at left center, transparent 98%, #000 100%) left center / 20px 100% no-repeat,
+    radial-gradient(10px 10px at right center, transparent 98%, #000 100%) right center / 20px 100% no-repeat,
+    linear-gradient(#000,#000);
+  mask:
+    radial-gradient(10px 10px at left center, transparent 98%, #000 100%) left center / 20px 100% no-repeat,
+    radial-gradient(10px 10px at right center, transparent 98%, #000 100%) right center / 20px 100% no-repeat,
+    linear-gradient(#000,#000);
+}
+
+/* Ballerina appears above button on hover */
+.wish-list::before{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:-60px;
+  width:58px; height:58px;
+  transform:translateX(-50%) scale(0.9);
+  background:url('/assets/bailarine_dance.png') center/contain no-repeat;
+  filter: hue-rotate(330deg) saturate(1.2); /* tilt to red tone if needed */
+  opacity:0;
+  pointer-events:none;
+}
+
+/* Ballerina hover effect */
+.wish-list::after{content:none}
+
+/* Hover cream transition */
+.wish-list:hover::before{opacity:1; animation: fade-rise .6s ease-out forwards}
+.wish-list:hover{color:rgb(170, 24, 43); border-color:rgb(170, 24, 43); background:#F7EED0}
+.wish-list:hover{filter:saturate(1.05);transform:translateY(-1px)}
+.wish-list:active{transform:translateY(0)}
+
+@keyframes fade-rise{
+  0%{transform:translateX(-50%) translateY(8px) scale(0.9); opacity:0}
+  100%{transform:translateX(-50%) translateY(0) scale(1); opacity:1}
+
+} 
+
 /* Ballerina appears above button on hover */
 .ticket-btn::before{
   content:'';
@@ -179,69 +238,190 @@ body{
   display:block;
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;
   object-position:var(--logo-object-position);
 }
 
 /* hero::after removed per request */
 
-/* Sparkles overlay on hero */
-.hero::before{
-  content:'';
+/* Firework containers */
+.firework-container{
   position:absolute;
-  inset:0;
   pointer-events:none;
-  background-repeat:no-repeat;
-  background-image:
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 12% 18%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 22% 36%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 35% 22%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 48% 14%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 63% 28%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 77% 20%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 88% 34%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 10% 52%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 26% 60%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 42% 48%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 58% 56%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 70% 44%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 84% 58%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 16% 76%, var(--sparkle-2) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 38% 72%, var(--sparkle-2) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 62% 74%, var(--sparkle-2) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 80% 70%, var(--sparkle-2) 0 50%, transparent 60%);
-  animation: twinkle 4.2s ease-in-out infinite;
-  will-change: opacity;
-  z-index:0;
-  filter: blur(0.4px);
+  z-index:10;
 }
 
-/* Second layer for shimmer */
-.hero .hero-inner::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background-repeat:no-repeat;
-  background-image:
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 8% 26%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 28% 14%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 54% 26%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 72% 16%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 92% 22%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 18% 46%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 46% 62%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 66% 52%, var(--sparkle-1) 0 50%, transparent 60%),
-    radial-gradient(var(--sparkle-size) var(--sparkle-size) at 86% 46%, var(--sparkle-1) 0 50%, transparent 60%);
-  animation: twinkle 4.6s ease-in-out infinite 0.8s;
-  opacity:.85;
-  z-index:0;
-  filter: blur(0.3px);
+.firework-1{
+  top:20%;
+  left:20%;
 }
 
-@keyframes twinkle{
-  0%,100%{opacity:.22}
-  50%{opacity:.75}
+.firework-2{
+  top:25%;
+  right:30%;
+}
+
+.firework-3{
+  top:60%;
+  left:45%;
+}
+
+.firework-4{
+  top:15%;
+  left:60%;
+}
+
+.firework-5{
+  top:70%;
+  right:20%;
+}
+
+.firework-6{
+  top:40%;
+  left:80%;
+}
+
+/* Individual particles */
+.particle{
+  position:absolute;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  pointer-events:none;
+}
+
+/* Firework 1 - Gold particles */
+.firework-1 .p1{background:#FFD700; animation: explode-1 3s ease-out infinite;}
+.firework-1 .p2{background:#FFA500; animation: explode-2 3s ease-out infinite;}
+.firework-1 .p3{background:#FFD700; animation: explode-3 3s ease-out infinite;}
+.firework-1 .p4{background:#FFA500; animation: explode-4 3s ease-out infinite;}
+.firework-1 .p5{background:#FFD700; animation: explode-5 3s ease-out infinite;}
+.firework-1 .p6{background:#FFA500; animation: explode-6 3s ease-out infinite;}
+.firework-1 .p7{background:#FFD700; animation: explode-7 3s ease-out infinite;}
+.firework-1 .p8{background:#FFA500; animation: explode-8 3s ease-out infinite;}
+
+/* Firework 2 - Red particles */
+.firework-2 .p1{background:#B4202A; animation: explode-1 3.5s ease-out infinite 0.5s;}
+.firework-2 .p2{background:#FF4500; animation: explode-2 3.5s ease-out infinite 0.5s;}
+.firework-2 .p3{background:#B4202A; animation: explode-3 3.5s ease-out infinite 0.5s;}
+.firework-2 .p4{background:#FF4500; animation: explode-4 3.5s ease-out infinite 0.5s;}
+.firework-2 .p5{background:#B4202A; animation: explode-5 3.5s ease-out infinite 0.5s;}
+.firework-2 .p6{background:#FF4500; animation: explode-6 3.5s ease-out infinite 0.5s;}
+.firework-2 .p7{background:#B4202A; animation: explode-7 3.5s ease-out infinite 0.5s;}
+.firework-2 .p8{background:#FF4500; animation: explode-8 3.5s ease-out infinite 0.5s;}
+
+/* Firework 3 - Blue particles */
+.firework-3 .p1{background:#2b5b84; animation: explode-1 4s ease-out infinite 1s;}
+.firework-3 .p2{background:#4169E1; animation: explode-2 4s ease-out infinite 1s;}
+.firework-3 .p3{background:#2b5b84; animation: explode-3 4s ease-out infinite 1s;}
+.firework-3 .p4{background:#4169E1; animation: explode-4 4s ease-out infinite 1s;}
+.firework-3 .p5{background:#2b5b84; animation: explode-5 4s ease-out infinite 1s;}
+.firework-3 .p6{background:#4169E1; animation: explode-6 4s ease-out infinite 1s;}
+.firework-3 .p7{background:#2b5b84; animation: explode-7 4s ease-out infinite 1s;}
+.firework-3 .p8{background:#4169E1; animation: explode-8 4s ease-out infinite 1s;}
+
+/* Firework 4 - Gold particles */
+.firework-4 .p1{background:#FFD700; animation: explode-1 3.2s ease-out infinite 1.5s;}
+.firework-4 .p2{background:#FFA500; animation: explode-2 3.2s ease-out infinite 1.5s;}
+.firework-4 .p3{background:#FFD700; animation: explode-3 3.2s ease-out infinite 1.5s;}
+.firework-4 .p4{background:#FFA500; animation: explode-4 3.2s ease-out infinite 1.5s;}
+.firework-4 .p5{background:#FFD700; animation: explode-5 3.2s ease-out infinite 1.5s;}
+.firework-4 .p6{background:#FFA500; animation: explode-6 3.2s ease-out infinite 1.5s;}
+.firework-4 .p7{background:#FFD700; animation: explode-7 3.2s ease-out infinite 1.5s;}
+.firework-4 .p8{background:#FFA500; animation: explode-8 3.2s ease-out infinite 1.5s;}
+
+/* Firework 5 - Red particles */
+.firework-5 .p1{background:#B4202A; animation: explode-1 3.8s ease-out infinite 2s;}
+.firework-5 .p2{background:#FF4500; animation: explode-2 3.8s ease-out infinite 2s;}
+.firework-5 .p3{background:#B4202A; animation: explode-3 3.8s ease-out infinite 2s;}
+.firework-5 .p4{background:#FF4500; animation: explode-4 3.8s ease-out infinite 2s;}
+.firework-5 .p5{background:#B4202A; animation: explode-5 3.8s ease-out infinite 2s;}
+.firework-5 .p6{background:#FF4500; animation: explode-6 3.8s ease-out infinite 2s;}
+.firework-5 .p7{background:#B4202A; animation: explode-7 3.8s ease-out infinite 2s;}
+.firework-5 .p8{background:#FF4500; animation: explode-8 3.8s ease-out infinite 2s;}
+
+/* Firework 6 - Blue particles */
+.firework-6 .p1{background:#2b5b84; animation: explode-1 4.2s ease-out infinite 2.5s;}
+.firework-6 .p2{background:#4169E1; animation: explode-2 4.2s ease-out infinite 2.5s;}
+.firework-6 .p3{background:#2b5b84; animation: explode-3 4.2s ease-out infinite 2.5s;}
+.firework-6 .p4{background:#4169E1; animation: explode-4 4.2s ease-out infinite 2.5s;}
+.firework-6 .p5{background:#2b5b84; animation: explode-5 4.2s ease-out infinite 2.5s;}
+.firework-6 .p6{background:#4169E1; animation: explode-6 4.2s ease-out infinite 2.5s;}
+.firework-6 .p7{background:#2b5b84; animation: explode-7 4.2s ease-out infinite 2.5s;}
+.firework-6 .p8{background:#4169E1; animation: explode-8 4.2s ease-out infinite 2.5s;}
+
+
+/* Particle explosion animations - each particle goes in a different direction */
+@keyframes explode-1{
+  0%{opacity:0; transform:translate(0, 0) scale(0.5)}
+  20%{opacity:1; transform:translate(0, -60px) scale(1)}
+  40%{opacity:0.9; transform:translate(0, -80px) scale(0.8)}
+  60%{opacity:0.6; transform:translate(0, -100px) scale(0.6)}
+  80%{opacity:0.3; transform:translate(0, -120px) scale(0.4)}
+  100%{opacity:0; transform:translate(0, -140px) scale(0.2)}
+}
+
+@keyframes explode-2{
+  0%{opacity:0; transform:translate(0, 0) scale(0.5)}
+  20%{opacity:1; transform:translate(42px, -42px) scale(1)}
+  40%{opacity:0.9; transform:translate(56px, -56px) scale(0.8)}
+  60%{opacity:0.6; transform:translate(70px, -70px) scale(0.6)}
+  80%{opacity:0.3; transform:translate(84px, -84px) scale(0.4)}
+  100%{opacity:0; transform:translate(98px, -98px) scale(0.2)}
+}
+
+@keyframes explode-3{
+  0%{opacity:0; transform:translate(0, 0) scale(0.5)}
+  20%{opacity:1; transform:translate(60px, 0) scale(1)}
+  40%{opacity:0.9; transform:translate(80px, 0) scale(0.8)}
+  60%{opacity:0.6; transform:translate(100px, 0) scale(0.6)}
+  80%{opacity:0.3; transform:translate(120px, 0) scale(0.4)}
+  100%{opacity:0; transform:translate(140px, 0) scale(0.2)}
+}
+
+@keyframes explode-4{
+  0%{opacity:0; transform:translate(0, 0) scale(0.5)}
+  20%{opacity:1; transform:translate(42px, 42px) scale(1)}
+  40%{opacity:0.9; transform:translate(56px, 56px) scale(0.8)}
+  60%{opacity:0.6; transform:translate(70px, 70px) scale(0.6)}
+  80%{opacity:0.3; transform:translate(84px, 84px) scale(0.4)}
+  100%{opacity:0; transform:translate(98px, 98px) scale(0.2)}
+}
+
+@keyframes explode-5{
+  0%{opacity:0; transform:translate(0, 0) scale(0.5)}
+  20%{opacity:1; transform:translate(0, 60px) scale(1)}
+  40%{opacity:0.9; transform:translate(0, 80px) scale(0.8)}
+  60%{opacity:0.6; transform:translate(0, 100px) scale(0.6)}
+  80%{opacity:0.3; transform:translate(0, 120px) scale(0.4)}
+  100%{opacity:0; transform:translate(0, 140px) scale(0.2)}
+}
+
+@keyframes explode-6{
+  0%{opacity:0; transform:translate(0, 0) scale(0.5)}
+  20%{opacity:1; transform:translate(-42px, 42px) scale(1)}
+  40%{opacity:0.9; transform:translate(-56px, 56px) scale(0.8)}
+  60%{opacity:0.6; transform:translate(-70px, 70px) scale(0.6)}
+  80%{opacity:0.3; transform:translate(-84px, 84px) scale(0.4)}
+  100%{opacity:0; transform:translate(-98px, 98px) scale(0.2)}
+}
+
+@keyframes explode-7{
+  0%{opacity:0; transform:translate(0, 0) scale(0.5)}
+  20%{opacity:1; transform:translate(-60px, 0) scale(1)}
+  40%{opacity:0.9; transform:translate(-80px, 0) scale(0.8)}
+  60%{opacity:0.6; transform:translate(-100px, 0) scale(0.6)}
+  80%{opacity:0.3; transform:translate(-120px, 0) scale(0.4)}
+  100%{opacity:0; transform:translate(-140px, 0) scale(0.2)}
+}
+
+@keyframes explode-8{
+  0%{opacity:0; transform:translate(0, 0) scale(0.5)}
+  20%{opacity:1; transform:translate(-42px, -42px) scale(1)}
+  40%{opacity:0.9; transform:translate(-56px, -56px) scale(0.8)}
+  60%{opacity:0.6; transform:translate(-70px, -70px) scale(0.6)}
+  80%{opacity:0.3; transform:translate(-84px, -84px) scale(0.4)}
+  100%{opacity:0; transform:translate(-98px, -98px) scale(0.2)}
 }
 
 /* Floating effect for cards and RSVP */
@@ -255,6 +435,7 @@ body{
 .info .card:nth-child(2){animation-duration:6.4s;animation-delay:.4s}
 .info .card:nth-child(3){animation-duration:7.6s;animation-delay:.8s}
 .rsvp{animation: floaty 8s ease-in-out infinite .2s}
+
 
 @media (prefers-reduced-motion: reduce){
   .hero::before, .hero .hero-inner::before{animation:none}
@@ -390,12 +571,17 @@ input[type="text"], input[type="number"]{
   .row{flex-direction:column}
   .hero{padding-bottom:10vh}
   .frame{padding:80px 24px 64px;width:105%;background-size:contain}
-  .logo-crop{height:180px;width:min(300px, 90%)}
+  .logo-crop{height:300px;width:min(500px, 90%)}
   .lead{font-size:20px;margin:2px 0 4px}
   .cta-buttons{margin-top:4px}
   .ticket-btn{width:100%;max-width:320px;padding:12px 18px;font-size:16px}
   .ticket-btn::before{display:none}
+  .wish-list{width:100%;max-width:320px;padding:12px 18px;font-size:16px}
+  .wish-list::before{display:none}
   .count-days{font-size:36px}
+  /* Reduce fireworks on mobile for better performance */
+  .hero::before{animation-duration:6s; opacity:0.7}
+  .hero .hero-inner::before{animation-duration:7s; opacity:0.6}
 }
 /* Fonte para títulos e chamadas */
 h1, h2, h3, .hero-title, .section-title {
