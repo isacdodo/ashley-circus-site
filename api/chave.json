@@ -1,0 +1,13 @@
+{
+  "GOOGLE_TYPE": "service_account",
+  "GOOGLE_PROJECT_ID": "dev-range-475015-t6",
+  "GOOGLE_PRIVATE_KEY_ID": "59700f5639983e22ff384861c086b46d5fb0d2ce",
+  "GOOGLE_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\\nMIIEugIBADANBgkqhkiG9w0BAQEFAASCBKQwggSgAgEAAoIBAQC2OCNGssWNDg3r\\nfb8cVg7Gzw8dqI3zNHcFmKRqpK6YRprIdrbiKu9iSSghzO9yND9fT0o0qzkeTJEp\\nwTbhohez9xX8X7Sy7i53EqA8eoTv1EOtRoR/ACp+TnyOhbTT1EBEdeQwTDtuzNzw\\nqMZNcC24bJy3Gkn1YRFjmJadCpsO7bpYSk/MLeZqHZy2wNIqcUYwtMIQhUIHIve5\\nqnZ3OlzP7p3W+Jve5jLbJJ1lZct/YQymH8iW0hzsT3znyGSzYy8CR4EedxNWgfmm\\nk7vw7fhkbHR6RSa/nTYcDJV35lx9xA1D5Sk3QP8ePcdX9M2j/EAga4oXDMOHMrwp\\n5iOCRU2PAgMBAAECgf8eXpItNkkL4/Zt89yQ3HGaBj3UCO5KRR7meopB5oXdhebw\\n14L42YRhh8/TJ6oWCUnb7gXFbBluSKno9krZ+tSjKeCAL3NDtG60vxCgWSB5gucZ\\n+fwbLpaRIS5L5/zl+89k7uvDy5txhrNME3+kEw42WTkaoJxdnnqcyXxQsB59CNnr\\nd3LiuptH8ybB2wf2y7XSbshAznN7B9Y43eAL94OEtqrgrrL8rkdGrOhWcrhvOffY\\nBdZXI0p3fFkTxd87A1OIIXvaY91VGbPsHFeT0RViqJIHhDGkpz5rRRWlGzdMpwL3\\nT4CK1asWulKXoc91JD0YbfFvA3NSA2UiaxNxDAECgYEA5DVqoWfgFSIL7b3zQ42u\\ndeawbAmkp+CPBsoCHwS108ZwebzCIPjNHCEFI2nKGKYb8doTWrXPMXHNQkaTNHUi\\nVSGio14E4c2hX+VD2Q+E4m2TAw/a3JbFxvG70UjODoOrSJOuS5ecnAimIqyroGl+\\n2NiX+myEH9i78mZaYIRklmUCgYEAzGj3eEc83Ti7FrrC07HMxJUotelYYG2wCWtv\\nwfd3LCAhBo4dBOHRfvxmX+d5WY2WsGAaV7MpIdnZV0B7fjjxgpvmxdkz4zMWY55u\\nTMB1HsBltUnk8zPCHLs7vrHzI4ri5vpIDoGfH4s3LL+OwrDHOdvRVHzLVa2ufuCq\\nf9UkCuMCgYBQXTtCwdjYuFepDlZneLJyVJ3WPgMdF2hmxKbAk6EQhfY/+KgIgnWA\\nrWQo121TBtQadGiSbiobyG63IzFdrM49Wo3yp/5iIk7s/UjKXLu4HUxDLMcvHW1i\\npOg2SERAOkAMW+1qM2b0T9tppJL/94azCHtktehFasatEzxKdvURPQKBgHZyfLQd\\n0479SKwrHKo+5UEkjaqbxLJb3R4YO3JSS6QuGfUKdJZXpGXJLCl2oELcYO1jQuB+\\n2N7ctaxxmR3TMV9Vp6wN6JtHBzpCm/etrjBbnJQodZrX6ytq83vU8ecum7zsWsTN\\nJ7/Hk/lCJx96AHfugKZMiibjtbGfziy0/WWxAoGATL08JoTqqfae15kNgHXnyR93\\n0A1Py3lTNTkHE6E8XDUftnS8FWAQNAN8ll1yydXByspz92i07sD3jb3XEASGvGCU\\nblc02scZFBmValzvBqMaYa4sXettLwfnMsSSCiSsIugzyuSZb8ZtQ3/iNdunW/+i\\nShUe3Bfb/KVUYc3Fkf8=\\n-----END PRIVATE KEY-----\\n",
+  "GOOGLE_CLIENT_EMAIL": "projeto-ashley@dev-range-475015-t6.iam.gserviceaccount.com",
+  "GOOGLE_CLIENT_ID": "101091472880262003488",
+  "GOOGLE_AUTH_URI": "https://accounts.google.com/o/oauth2/auth",
+  "GOOGLE_TOKEN_URI": "https://oauth2.googleapis.com/token",
+  "GOOGLE_AUTH_PROVIDER_CERT": "https://www.googleapis.com/oauth2/v1/certs",
+  "GOOGLE_CLIENT_CERT_URL": "https://www.googleapis.com/robot/v1/metadata/x509/projeto-ashley%40dev-range-475015-t6.iam.gserviceaccount.com",
+  "GOOGLE_UNIVERSE_DOMAIN": "googleapis.com"
+}
