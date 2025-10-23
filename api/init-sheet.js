@@ -4,6 +4,12 @@
 
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
+  const body = req.body;
+
+  // Basic validation
+  if (!body || !body.nome || !body.contato) {
+    return res.status(400).send('Missing fields');
+  }
 
   const sheetId = process.env.GOOGLE_SHEET_ID;
 
@@ -47,12 +53,19 @@ module.exports = async (req, res) => {
       'Total',
       'Contato'
     ]];
-
+    
     await sheets.spreadsheets.values.update({
       spreadsheetId: sheetId,
       range: 'A1:F1',
       valueInputOption: 'RAW',
       requestBody: { values: headers }
+    });
+
+    const result = await sheets.spreadsheets.values.append({
+      spreadsheetId: '12tr_4vszkYWg33En0xBtvupNaEkNjueLe_Rgg1Ukfc0',
+      range: 'A:F',
+      valueInputOption: 'USER_ENTERED',
+      resource: { values }
     });
 
     return res.status(200).send('Headers created at A1:F1');
