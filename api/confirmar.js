@@ -36,7 +36,7 @@ module.exports = async (req, res) => {
         universe_domain: process.env.GOOGLE_UNIVERSE_DOMAIN || 'googleapis.com'
       }
     : null;
-
+console.log(sheetId, key)
   if (sheetId && key) {
     try {
       const { google } = require('googleapis');
