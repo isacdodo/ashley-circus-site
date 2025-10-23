@@ -6,21 +6,18 @@
 // 2) Otherwise fallback to appending to a local CSV (useful for local dev).
 
 
-const fs = require('fs');
-const path = require('path');
-
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).send('Method Not Allowed');
+
   const body = req.body;
 
-  // Basic validation
+  // Validação básica
   if (!body || !body.nome || !body.contato) {
-    return res.status(400).send('Missing fields');
+    return res.status(400).send('Campos obrigatórios ausentes: nome e contato');
   }
 
   const sheetId = process.env.GOOGLE_SHEET_ID;
 
-  // Monta o objeto de credenciais a partir das variáveis de ambiente
   const key = process.env.GOOGLE_CLIENT_EMAIL && process.env.GOOGLE_PRIVATE_KEY
     ? {
         type: process.env.GOOGLE_TYPE || 'service_account',
@@ -36,58 +33,47 @@ module.exports = async (req, res) => {
         universe_domain: process.env.GOOGLE_UNIVERSE_DOMAIN || 'googleapis.com'
       }
     : null;
-console.log(sheetId, key)
-  if (sheetId && key) {
-    try {
-      const { google } = require('googleapis');
-      const jwtClient = new google.auth.JWT(
-        key.client_email,
-        null,
-        key.private_key,
-        ['https://www.googleapis.com/auth/spreadsheets']
-      );
-      await jwtClient.authorize();
-      const sheets = google.sheets({ version: 'v4', auth: jwtClient });
 
-      const adultos = Number(body.adultos || 0) || 0;
-      const criancas = Number(body.criancas || 0) || 0;
-      const total = adultos + criancas;
-      const values = [
-        [
-          new Date().toISOString(),
-          String(body.nome),
-          adultos,
-          criancas,
-          total,
-          String(body.contato)
-        ]
-      ];
-      const range = process.env.GOOGLE_SHEET_RANGE || 'A:F';
-      await sheets.spreadsheets.values.append({
-        spreadsheetId: sheetId,
-        range,
-        valueInputOption: 'USER_ENTERED',
-        resource: { values }
-      });
-      return res.status(200).send('OK');
-    } catch (err) {
-      console.error('Google sheets error', err);
-      // fallthrough to CSV
-    }
+  if (!sheetId || !key) {
+    return res.status(500).send('Credenciais ou ID da planilha ausentes');
   }
 
-  // Fallback: append to a CSV in /tmp
   try {
-    const adultos = Number(body.adultos || 0) || 0;
-    const criancas = Number(body.criancas || 0) || 0;
+    const { google } = require('googleapis');
+    const jwtClient = new google.auth.JWT(
+      key.client_email,
+      null,
+      key.private_key,
+      ['https://www.googleapis.com/auth/spreadsheets']
+    );
+    await jwtClient.authorize();
+    const sheets = google.sheets({ version: 'v4', auth: jwtClient });
+
+    const adultos = Number(body.adultos || 0);
+    const criancas = Number(body.criancas || 0);
     const total = adultos + criancas;
-    const esc = (s) => String(s || '').replace(/"/g, '""');
-    const line = `${new Date().toISOString()},"${esc(body.nome)}",${adultos},${criancas},${total},"${esc(body.contato)}"\n`;
-    const csvPath = path.join('/tmp', 'confirmados.csv');
-    fs.appendFileSync(csvPath, line, 'utf8');
-    return res.status(200).send('OK');
+
+    const values = [[
+      new Date().toISOString(),
+      String(body.nome),
+      adultos,
+      criancas,
+      total,
+      String(body.contato)
+    ]];
+
+    const range = process.env.GOOGLE_SHEET_RANGE || 'A:F';
+
+    await sheets.spreadsheets.values.append({
+      spreadsheetId: sheetId,
+      range,
+      valueInputOption: 'USER_ENTERED',
+      resource: { values }
+    });
+
+    return res.status(200).send('Dados confirmados com sucesso!');
   } catch (err) {
-    console.error(err);
-    return res.status(500).send('Internal error');
+    console.error('Erro ao gravar no Google Sheets:', err);
+    return res.status(500).send('Não foi possível confirmar os dados no momento');
   }
 };

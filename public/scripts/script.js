@@ -55,7 +55,11 @@ form.addEventListener('submit', async (e) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
-   
+    const initsheet = await fetch('/api/init-sheet', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
     if (!resp.ok) throw new Error('Falha ao enviar');
     successEl.textContent = '🎉 Sua presença foi confirmada! Obrigado.';
     successEl.hidden = false;
