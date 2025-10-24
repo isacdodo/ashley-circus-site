@@ -41,34 +41,59 @@ updateQtyUI();
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const data = new FormData(form);
   const payload = {
-    nome: data.get('nome'),
+    nome: data.get('nome')?.trim(),
+    contato: data.get('contato')?.trim(),
     adultos: state.adultos,
     criancas: state.criancas,
-    contato: data.get('contato'),
     timestamp: new Date().toISOString()
   };
+
+  // Validação básica
+  if (!payload.nome || !payload.contato || (payload.adultos + payload.criancas === 0)) {
+    successEl.textContent = '⚠️ Preencha todos os campos e selecione pelo menos um convidado.';
+    successEl.hidden = false;
+    setTimeout(() => { successEl.hidden = true; }, 6000);
+    return;
+  }
+
+  const submitBtn = form.querySelector('button[type="submit"]');
+  submitBtn.disabled = true;
+
   try {
-    const resp = await fetch('/api/confirmar', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    const initsheet = await fetch('/api/init-sheet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    if (!resp.ok) throw new Error('Falha ao enviar');
+    const [resp, initsheet] = await Promise.all([
+      fetch('/api/confirmar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      }),
+      fetch('/api/init-sheet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+    ]);
+
+    if (!resp.ok || !initsheet.ok) {
+      const errorMsg = await initsheet.text();
+      throw new Error(errorMsg || 'Falha ao enviar dados para a planilha');
+    }
+
     successEl.textContent = '🎉 Sua presença foi confirmada! Obrigado.';
     successEl.hidden = false;
-    setTimeout(()=>{ successEl.hidden = true; }, 5000);
+    setTimeout(() => { successEl.hidden = true; }, 5000);
     form.reset();
-    state.adultos = 0; state.criancas = 0; updateQtyUI();
+    state.adultos = 0;
+    state.criancas = 0;
+    updateQtyUI();
   } catch (err) {
     successEl.textContent = '⚠️ Não foi possível confirmar agora. Tente novamente mais tarde.';
     successEl.hidden = false;
-    setTimeout(()=>{ successEl.hidden = true; }, 6000);
+    setTimeout(() => { successEl.hidden = true; }, 6000);
+    console.error('Erro ao enviar:', err);
+  } finally {
+    submitBtn.disabled = false;
   }
 });
